@@ -52,3 +52,5 @@ db_cursor.execute(
      absolute_magnitude, \
      hazardous) VALUES ' + tuples_string + ';')
 db_cursor.execute('FLUSH TABLES;')
+db_cursor.close()
+db_connection.close()
