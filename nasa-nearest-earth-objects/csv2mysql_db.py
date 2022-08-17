@@ -15,12 +15,12 @@ args = parser.parse_args()
 table = args.tablename
 db_connection = mysql.connector.connect(user=args.user, password=args.password)
 db_cursor = db_connection.cursor()
-db_cursor.execute("CREATE DATABASE IF NOT EXISTS NeoDB;")
-db_cursor.execute("USE NeoDB;")
-db_cursor.execute(f"DROP TABLE IF EXISTS {table}")
+db_cursor.execute('CREATE DATABASE IF NOT EXISTS NeoDB;')
+db_cursor.execute('USE NeoDB;')
+db_cursor.execute(f'DROP TABLE IF EXISTS {table}')
 
 db_cursor.execute(
-    f"CREATE TABLE {table}(\
+    f'CREATE TABLE {table}(\
      id INT, \
      name VARCHAR(1000), \
      est_diameter_min FLOAT, \
@@ -30,17 +30,17 @@ db_cursor.execute(
      orbiting_body VARCHAR(1000), \
      sentry_object BOOLEAN, \
      absolute_magnitude FLOAT, \
-     hazardous BOOLEAN);"
+     hazardous BOOLEAN);'
 )
 
 df = pd.read_csv(args.file)
 df.name = '"' + df.name + '"'
 df.orbiting_body = '"' + df.orbiting_body + '"'
 tuples = list(df.itertuples(index=False, name=None))
-tuples_string = ",".join(["(" + ",".join([str(w) for w in t]) + ")" for t in tuples])
+tuples_string = ','.join(['(' + ','.join([str(w) for w in t]) + ')' for t in tuples])
 
 db_cursor.execute(
-    f"INSERT INTO {table} (\
+    f'INSERT INTO {table} (\
      id, \
      name, \
      est_diameter_min, \
@@ -50,5 +50,5 @@ db_cursor.execute(
      orbiting_body, \
      sentry_object, \
      absolute_magnitude, \
-     hazardous) VALUES " + tuples_string + ";")
-db_cursor.execute("FLUSH TABLES;")
+     hazardous) VALUES ' + tuples_string + ';')
+db_cursor.execute('FLUSH TABLES;')
